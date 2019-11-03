@@ -45,7 +45,7 @@ class DNSService:
         action.add(record.name, record.ttl, record.type, record.answer)
         response = dns.query.tcp(action, self.__server_host)
 
-        print(response)
+        print(type(response))
 
     @classmethod
     def __make_entry(cls, ttl, rdata):
