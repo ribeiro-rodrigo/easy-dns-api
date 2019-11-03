@@ -1,22 +1,18 @@
 from config.config_helper import ConfigHelper
 from services.dns import DNSService
+from models.record import Record
 
 
 class DNSRecordsFacade:
     def __init__(self, dns_service: DNSService):
         self.__dns_service = dns_service
 
-    def insert_record(self, record: dict):
+    def insert_record(self, record: Record):
 
-        if not self.__is_valid_domain(record["recordName"]):
+        if not record.is_valid_zone():
             raise InvalidZone("'zone' not enabled")
 
         self.__dns_service.add_record(record)
-
-    def __is_valid_domain(self, record_name):
-        return list(
-            filter(lambda domain: record_name.endswith(domain), self.__avaliable_zones)
-        )
 
 
 class InvalidZone(Exception):

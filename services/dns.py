@@ -6,6 +6,7 @@ import dns.update
 from dns.exception import FormError
 
 from config.config_helper import ConfigHelper
+from models.record import Record
 
 
 class DNSService:
@@ -36,26 +37,17 @@ class DNSService:
         except FormError as e:
             raise Exception(str(e))
 
-    def add_record(self, record):
-
-        zone_from_record = self.__get_zone_from_record(record)
+    def add_record(self, record: Record):
 
         keyring = dns.tsigkeyring.from_text({
-            zone_from_record: self.__key
+            record.zone: self.__key
         })
-        print(self.__key)
-        action = dns.update.Update(zone_from_record, keyring=keyring)
-        action.add(record['recordName'], record['ttl'], record['recordType'], record['answer'])
+
+        action = dns.update.Update(record.zone, keyring=keyring)
+        action.add(record.name, record.ttl, record.type, record.answer)
         response = dns.query.tcp(action, self.__server_host)
 
         print(response)
-
-    def __get_zone_from_record(self, record):
-        zone_filtered = list(
-            filter(lambda domain: record['recordName'].endswith(domain), self.__avaliable_zones)
-        )
-
-        return zone_filtered[0] if zone_filtered else None
 
     @classmethod
     def __make_entry(cls, ttl, rdata):

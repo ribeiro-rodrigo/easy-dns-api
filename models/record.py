@@ -9,6 +9,10 @@ class Record:
 
     @property
     def name(self):
+        return self.__name.split('.')[0]
+
+    @property
+    def full_name(self):
         return self.__name
 
     @property
