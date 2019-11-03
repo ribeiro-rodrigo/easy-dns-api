@@ -1,14 +1,16 @@
 from flask_restful import Resource
 
+from facade.dns import DNSFacade
+
 
 class DNSRecord(Resource):
 
-    def get(self, zone_name, record_name, record_type):
+    def __init__(self, dns_facade: DNSFacade):
+        self.__dns_facade = dns_facade
+
+    def put(self, record_name, record_type):
         pass
 
-    def put(self, zone_name, record_name, record_type):
-        pass
-
-    def delete(self, zone_name, record_name, record_type):
+    def delete(self, record_name, record_type):
         pass
 
