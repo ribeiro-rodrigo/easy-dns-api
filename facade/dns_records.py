@@ -3,8 +3,7 @@ from services.dns import DNSService
 
 
 class DNSRecordsFacade:
-    def __init__(self, dns_service: DNSService, config_helper: ConfigHelper):
-        self.__avaliable_zones = config_helper.avaliable_zones
+    def __init__(self, dns_service: DNSService):
         self.__dns_service = dns_service
 
     def insert_record(self, record: dict):
