@@ -3,6 +3,7 @@ import dns.query
 import dns.rdatatype
 import dns.tsigkeyring
 import dns.update
+import dns.opcode
 from dns.exception import FormError
 
 from config.config_helper import ConfigHelper
@@ -14,12 +15,15 @@ class DNSService:
     def __init__(self, cfg: ConfigHelper):
         self.__server_host = cfg.config['dns']['server_host']
         self.__key = cfg.config['tsig']['key']
+        self.__connection_timeout = cfg.connection_timeout
 
     def transfer_zone(self, zone_name):
 
         try:
 
-            transferred_zone = dns.zone.from_xfr(dns.query.xfr(self.__server_host, zone_name))
+            transferred_zone = dns.zone.from_xfr(
+                dns.query.xfr(self.__server_host, zone_name)
+            )
             entries = {}
 
             for name, ttl, rdata in transferred_zone.iterate_rdatas():
@@ -43,9 +47,9 @@ class DNSService:
 
         action = dns.update.Update(record.zone, keyring=keyring)
         action.add(record.name, record.ttl, record.type, record.answer)
-        response = dns.query.tcp(action, self.__server_host)
+        response = dns.query.tcp(action, self.__server_host, timeout=self.__connection_timeout)
 
-        print(type(response))
+        return response.opcode() == dns.opcode.UPDATE
 
     @classmethod
     def __make_entry(cls, ttl, rdata):

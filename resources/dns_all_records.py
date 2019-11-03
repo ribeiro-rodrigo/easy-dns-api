@@ -25,7 +25,10 @@ class DNSAllRecords(Resource):
 
             record_dto = request.json
             record = Record(record_dto, self.__avaliable_zones)
-            self.__dns_records_facade.insert_record(record)
+            added = self.__dns_records_facade.insert_record(record)
+
+            if not added:
+                return {"message": "could not insert entry in DNS record", "errors": []}, 422
 
             return "", 201, {
                 'Location': f'{request.path}/{record.full_name}/type/{record.type}'
@@ -33,6 +36,9 @@ class DNSAllRecords(Resource):
 
         except InvalidZone as e:
             return {"message": "not authorized", "errors": [str(e)]}, 422
+
+        except Exception:
+            return {"message": "internal error"}, 500
 
 
 

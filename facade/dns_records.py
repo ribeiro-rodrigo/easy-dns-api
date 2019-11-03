@@ -11,7 +11,7 @@ class DNSRecordsFacade:
         if not record.is_valid_zone():
             raise InvalidZone("'zone' not enabled")
 
-        self.__dns_service.add_record(record)
+        return self.__dns_service.add_record(record)
 
 
 class InvalidZone(Exception):

@@ -16,3 +16,7 @@ class ConfigHelper:
     def avaliable_zones(self):
         return ast.literal_eval(self.__config.get('dns', 'avaliable_zones'))
 
+    @property
+    def connection_timeout(self):
+        return float(self.__config.get('dns','connection_timeout'))
+
