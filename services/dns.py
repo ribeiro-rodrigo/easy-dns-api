@@ -9,6 +9,7 @@ class DNSService:
 
     def __init__(self, cfg: ConfigHelper):
         self.__server_host = cfg.config['dns']['server_host']
+        print(cfg.avaliable_zones)
 
     def transfer_zone(self, zone_name):
         transferred_zone = dns.zone.from_xfr(dns.query.xfr(self.__server_host, zone_name))

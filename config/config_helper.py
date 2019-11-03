@@ -1,4 +1,5 @@
 import configparser
+import ast
 
 
 class ConfigHelper:
@@ -10,4 +11,8 @@ class ConfigHelper:
     @property
     def config(self):
         return self.__config
+
+    @property
+    def avaliable_zones(self):
+        return ast.literal_eval(self.__config.get('dns', 'avaliable_zones'))
 
