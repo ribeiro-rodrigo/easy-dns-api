@@ -2,7 +2,7 @@ from services.dns import DNSService
 from config.config_helper import ConfigHelper
 
 
-class DNSFacade:
+class DNSZonesFacade:
     def __init__(self, dns_service: DNSService, cfg: ConfigHelper):
         self.__dns_service = dns_service
         self.__avaliable_zones = cfg.avaliable_zones
