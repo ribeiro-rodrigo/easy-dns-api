@@ -14,7 +14,7 @@ class DNSAllRecords(Resource):
         self.__dns_records_facade = dns_records_facade
         self.__avaliable_zones = cfg.avaliable_zones
 
-    def post(self):
+    def post(self, zone_name):
 
         json_validator = DNSRecordJSONValidator(request)
 
@@ -24,7 +24,7 @@ class DNSAllRecords(Resource):
         try:
 
             record_dto = request.json
-            record = Record(record_dto, self.__avaliable_zones)
+            record = Record(record_dto, zone_name, self.__avaliable_zones)
             added = self.__dns_records_facade.insert_record(record)
 
             if not added:

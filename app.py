@@ -14,8 +14,8 @@ app = Flask(__name__)
 api = Api(app)
 
 api.add_resource(DNSZone, '/v1/dns/zone')
-api.add_resource(DNSAllRecords, '/v1/dns/records')
-api.add_resource(DNSRecord, '/v1/dns/record/<string:record_name>/type/<string:record_type>')
+api.add_resource(DNSAllRecords, '/v1/dns/zone/<string:zone_name>/records')
+api.add_resource(DNSRecord, '/v1/dns/zone/<string:zone_name>/record/<string:record_name>')
 
 FlaskInjector(app=app, modules=[
     ServiceModule,
