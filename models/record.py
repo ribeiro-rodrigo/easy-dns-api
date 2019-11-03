@@ -1,10 +1,10 @@
 
 class Record:
     def __init__(self, record_map: dict, zone, avaliable_zones: list):
-        self.__name = record_map['recordName']
-        self.__type = record_map['recordType']
-        self.__ttl = record_map['ttl']
-        self.__answer = record_map['answer']
+        self.__name = record_map.get('recordName', None)
+        self.__type = record_map.get('recordType', None)
+        self.__ttl = record_map.get('ttl', None)
+        self.__answer = record_map.get('answer', None)
         self.__zone = zone
         self.__avaliable_zones = avaliable_zones
 

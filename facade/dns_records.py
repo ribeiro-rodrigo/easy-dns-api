@@ -13,6 +13,13 @@ class DNSRecordsFacade:
 
         return self.__dns_service.add_record(record)
 
+    def delete_record(self, record: Record):
+
+        if not record.is_valid_zone():
+            raise InvalidZone("'zone' not enabled")
+
+        return self.__dns_service.delete_record(record) 
+
 
 class InvalidZone(Exception):
     pass

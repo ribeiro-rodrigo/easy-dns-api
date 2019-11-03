@@ -51,6 +51,17 @@ class DNSService:
 
         return response.opcode() == dns.opcode.UPDATE
 
+    def delete_record(self, record: Record):
+        keyring = dns.tsigkeyring.from_text({
+            record.zone: self.__key
+        })
+
+        action = dns.update.Update(record.zone, keyring=keyring)
+        action.delete(record.name)
+        response = dns.query.tcp(action,self.__server_host)
+
+        return response.opcode() == dns.opcode.UPDATE
+
     @classmethod
     def __make_entry(cls, ttl, rdata):
         return [{
