@@ -9,6 +9,7 @@ verify_ssl = true
 dnspython = "==1.16.0"
 flask = "==1.1.1"
 flask-restful = "==0.3.7"
+flask-injector = "==0.12.0"
 
 [requires]
 python_version = "3.7"
