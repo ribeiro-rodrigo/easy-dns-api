@@ -41,38 +41,38 @@ class DNSService:
 
     def add_record(self, record: Record):
 
-        keyring = dns.tsigkeyring.from_text({
-            record.zone: self.__key
-        })
-
-        action = dns.update.Update(record.zone, keyring=keyring)
+        action = self.__make_action(record)
         action.add(record.name, record.ttl, record.type, record.answer)
-        response = dns.query.tcp(action, self.__server_host, timeout=self.__connection_timeout)
+        response = self.__execute_query(action)
 
         return response.opcode() == dns.opcode.UPDATE
 
     def delete_record(self, record: Record):
-        keyring = dns.tsigkeyring.from_text({
-            record.zone: self.__key
-        })
 
-        action = dns.update.Update(record.zone, keyring=keyring)
+        action = self.__make_action(record)
         action.delete(record.name)
-        response = dns.query.tcp(action, self.__server_host)
+        response = self.__execute_query(action)
 
         return response.opcode() == dns.opcode.UPDATE
 
     def update_record(self, record: Record):
+
+        action = self.__make_action(record)
+        action.replace(record.name, record.ttl, record.type, record.answer)
+
+        response = self.__execute_query(action)
+
+        return response.opcode() == dns.opcode.UPDATE
+
+    def __make_action(self, record: Record):
         keyring = dns.tsigkeyring.from_text({
             record.zone: self.__key
         })
 
-        action = dns.update.Update(record.zone, keyring=keyring)
-        action.replace(record.name, record.ttl, record.type, record.answer)
+        return dns.update.Update(record.zone, keyring=keyring)
 
-        response = dns.query.tcp(action, self.__server_host)
-
-        return response.opcode() == dns.opcode.UPDATE
+    def __execute_query(self, action):
+        return dns.query.tcp(action, self.__server_host)
 
     @classmethod
     def __make_entry(cls, ttl, rdata):
