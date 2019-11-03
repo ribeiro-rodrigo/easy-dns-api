@@ -16,6 +16,11 @@ class DNSRecordsFacade:
         DNSRecordsFacade.__check_zone(record)
         return self.__dns_service.delete_record(record)
 
+    def update_record(self, record: Record):
+
+        DNSRecordsFacade.__check_zone(record)
+        return self.__dns_service.update_record(record)
+
     @classmethod
     def __check_zone(cls, record: Record):
         if not record.is_valid_zone():
