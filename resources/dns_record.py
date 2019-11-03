@@ -1,7 +1,7 @@
 from flask_restful import Resource, request
 from injector import inject
 
-from facade.dns_records import DNSRecordsFacade, InvalidZone
+from facade.dns_records import DNSRecordsFacade, InvalidZone, RecordNotExists
 from models.record import Record
 from resources.validators.dns_record import DNSRecordJSONValidator
 from config.config_helper import ConfigHelper
@@ -37,6 +37,9 @@ class DNSRecord(Resource):
 
         except InvalidZone as e:
             return {"message": "not authorized", "errors": [str(e)]}, 422
+
+        except RecordNotExists:
+            return {"message": "record not exists", "errors": []}, 404
 
         except Exception as e:
             print(str(e))

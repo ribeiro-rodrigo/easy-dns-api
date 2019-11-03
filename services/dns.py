@@ -2,6 +2,7 @@ import dns.zone
 import dns.query
 import dns.rdatatype
 import dns.tsigkeyring
+import dns.resolver
 import dns.update
 import dns.opcode
 from dns.exception import FormError
@@ -39,6 +40,14 @@ class DNSService:
         except FormError as e:
             raise Exception(str(e))
 
+    def resolve_domain(self, domain, type_record='A'):
+
+        try:
+            resolver = self.__make_resolver()
+            return resolver.query(domain, type_record)
+        except dns.resolver.NXDOMAIN as e:
+            return None
+
     def add_record(self, record: Record):
 
         action = self.__make_action(record)
@@ -74,6 +83,11 @@ class DNSService:
     def __execute_query(self, action):
         return dns.query.tcp(action, self.__server_host)
 
+    def __make_resolver(self):
+        resolver = dns.resolver.Resolver()
+        resolver.nameservers = [self.__server_host]
+        return resolver
+
     @classmethod
     def __make_entry(cls, ttl, rdata):
         return [{
@@ -81,7 +95,6 @@ class DNSService:
             'ttl': str(ttl),
             'answer': str(rdata)
         }]
-
 
 
 

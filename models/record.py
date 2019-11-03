@@ -14,7 +14,7 @@ class Record:
 
     @property
     def full_name(self):
-        return self.__name
+        return f'{self.__name}.{self.__zone}'
 
     @property
     def type(self):
