@@ -13,9 +13,7 @@ class DNSService:
 
     def __init__(self, cfg: ConfigHelper):
         self.__server_host = cfg.config['dns']['server_host']
-        self.__avaliable_zones = cfg.avaliable_zones
         self.__key = cfg.config['tsig']['key']
-        print(cfg.avaliable_zones)
 
     def transfer_zone(self, zone_name):
 
