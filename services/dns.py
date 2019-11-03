@@ -1,6 +1,7 @@
 import dns.zone
 import dns.query
 import dns.rdatatype
+from dns.exception import FormError
 
 from config.config_helper import ConfigHelper
 
@@ -12,18 +13,25 @@ class DNSService:
         print(cfg.avaliable_zones)
 
     def transfer_zone(self, zone_name):
-        transferred_zone = dns.zone.from_xfr(dns.query.xfr(self.__server_host, zone_name))
-        entries = {}
 
-        for name, ttl, rdata in transferred_zone.iterate_rdatas():
-            entry = self.__make_entry(ttl, rdata)
+        try:
 
-            if entries.get(str(name)):
-                entry = entries[str(name)] + entry
+            transferred_zone = dns.zone.from_xfr(dns.query.xfr(self.__server_host, zone_name))
+            entries = {}
 
-            entries[str(name)] = entry
+            for name, ttl, rdata in transferred_zone.iterate_rdatas():
+                entry = self.__make_entry(ttl, rdata)
 
-        return entries
+                if entries.get(str(name)):
+                    entry = entries[str(name)] + entry
+
+                entries[str(name)] = entry
+
+            return entries
+
+        except FormError as e:
+            raise Exception(str(e))
+
 
     @classmethod
     def __make_entry(cls, ttl, rdata):
