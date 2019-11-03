@@ -8,17 +8,18 @@ class DNSRecordsFacade:
 
     def insert_record(self, record: Record):
 
-        if not record.is_valid_zone():
-            raise InvalidZone("'zone' not enabled")
-
+        DNSRecordsFacade.__check_zone(record)
         return self.__dns_service.add_record(record)
 
     def delete_record(self, record: Record):
 
+        DNSRecordsFacade.__check_zone(record)
+        return self.__dns_service.delete_record(record)
+
+    @classmethod
+    def __check_zone(cls, record: Record):
         if not record.is_valid_zone():
             raise InvalidZone("'zone' not enabled")
-
-        return self.__dns_service.delete_record(record) 
 
 
 class InvalidZone(Exception):
