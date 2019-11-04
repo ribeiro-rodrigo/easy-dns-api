@@ -7,6 +7,7 @@ from resources.dns_record import DNSRecord
 from resources.dns_zone import DNSZone
 from resources.dns_all_records import DNSAllRecords
 from resources.user_login import UserLogin
+from resources.refresh_login import RefreshLogin
 
 from services import ServiceModule
 from config import ConfigModule
@@ -24,6 +25,7 @@ api.add_resource(DNSZone, '/v1/dns/zones')
 api.add_resource(DNSAllRecords, '/v1/dns/zones/<string:zone_name>/records')
 api.add_resource(DNSRecord, '/v1/dns/zones/<string:zone_name>/records/<string:record_name>')
 api.add_resource(UserLogin, '/auth')
+api.add_resource(RefreshLogin, '/refresh')
 
 JWTManager(app)
 

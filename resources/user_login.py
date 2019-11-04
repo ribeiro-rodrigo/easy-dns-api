@@ -23,9 +23,14 @@ class UserLogin(Resource):
         if not authenticated:
             return {"message": "user not authenticated"}, 401
 
-        token = self.__auth_service.generate_token(user_dto['username'])
+        access_token, refresh_token = self.__auth_service.generate_access_and_refresh_token(
+            user_dto['username']
+        )
 
-        return {"token": token}, 200
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+        }, 200
 
 
 
