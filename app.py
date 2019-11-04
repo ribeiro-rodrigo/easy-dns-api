@@ -13,8 +13,8 @@ from facade import FacadeModule
 app = Flask(__name__)
 api = Api(app)
 
-api.add_resource(DNSZone, '/v1/dns/zone')
-api.add_resource(DNSAllRecords, '/v1/dns/zone/<string:zone_name>/records')
+api.add_resource(DNSZone, '/v1/dns/zones')
+api.add_resource(DNSAllRecords, '/v1/dns/zones/<string:zone_name>/records')
 api.add_resource(DNSRecord, '/v1/dns/zones/<string:zone_name>/records/<string:record_name>')
 
 FlaskInjector(app=app, modules=[
