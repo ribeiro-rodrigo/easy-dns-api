@@ -1,4 +1,5 @@
 from flask_restful import Resource, request
+from flask_jwt_extended import jwt_required
 from injector import inject
 from resources.validators.dns_record import DNSRecordJSONValidator
 
@@ -14,6 +15,7 @@ class DNSAllRecords(Resource):
         self.__dns_records_facade = dns_records_facade
         self.__avaliable_zones = cfg.avaliable_zones
 
+    @jwt_required
     def post(self, zone_name):
 
         json_validator = DNSRecordJSONValidator(request)

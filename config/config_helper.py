@@ -18,5 +18,9 @@ class ConfigHelper:
 
     @property
     def connection_timeout(self):
-        return float(self.__config.get('dns','connection_timeout'))
+        return float(self.__config.get('dns', 'connection_timeout'))
+
+    @property
+    def token_expires(self):
+        return int(self.__config.get('auth', 'token_expires_in_minutes'))
 

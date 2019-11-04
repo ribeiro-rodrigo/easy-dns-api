@@ -1,4 +1,5 @@
 from flask_restful import Resource, request
+from flask_jwt_extended import jwt_required
 from injector import inject
 
 from facade.dns_records import DNSRecordsFacade, InvalidZone, RecordNotExists
@@ -14,6 +15,7 @@ class DNSRecord(Resource):
         self.__dns_records_facade = dns_records_facade
         self.__avaliable_zones = cfg.avaliable_zones
 
+    @jwt_required
     def put(self, zone_name, record_name):
 
         request.json['recordName'] = record_name
@@ -45,6 +47,7 @@ class DNSRecord(Resource):
             print(str(e))
             return {"message": "internal error"}, 500
 
+    @jwt_required
     def delete(self, zone_name, record_name):
 
         try:
