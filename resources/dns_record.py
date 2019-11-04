@@ -36,7 +36,7 @@ class DNSRecord(Resource):
             return None, 204
 
         except InvalidZone as e:
-            return {"message": "not authorized", "errors": [str(e)]}, 422
+            return {"message": "zone not found", "errors": [str(e)]}, 404
 
         except RecordNotExists:
             return {"message": "record not exists", "errors": []}, 404
@@ -58,7 +58,7 @@ class DNSRecord(Resource):
             return None, 204
 
         except InvalidZone as e:
-            return {"message": "not authorized", "errors": [str(e)]}, 422
+            return {"message": "zone not found", "errors": [str(e)]}, 404
 
         except Exception as e:
             print(str(e))

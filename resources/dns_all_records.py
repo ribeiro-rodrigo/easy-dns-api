@@ -35,7 +35,7 @@ class DNSAllRecords(Resource):
             }
 
         except InvalidZone as e:
-            return {"message": "not authorized", "errors": [str(e)]}, 422
+            return {"message": "zone not found", "errors": [str(e)]}, 404
 
         except Exception:
             return {"message": "internal error"}, 500
