@@ -37,5 +37,5 @@ FlaskInjector(app=app, modules=[
 
 if __name__ == '__main__':
     debug_mode = True
-    app.run(debug=debug_mode)
+    app.run("0.0.0.0",debug=debug_mode)
 
