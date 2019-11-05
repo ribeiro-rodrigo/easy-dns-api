@@ -25,17 +25,13 @@ class DNSService:
             transferred_zone = dns.zone.from_xfr(
                 dns.query.xfr(self.__server_host, zone_name)
             )
-            entries = {}
+            records = []
 
             for name, ttl, rdata in transferred_zone.iterate_rdatas():
-                entry = self.__make_entry(ttl, rdata)
+                entry = self.__make_entry(name, ttl, rdata)
+                records.append(entry)
 
-                if entries.get(str(name)):
-                    entry = entries[str(name)] + entry
-
-                entries[str(name)] = entry
-
-            return entries
+            return records
 
         except FormError as e:
             raise Exception(str(e))
@@ -89,12 +85,13 @@ class DNSService:
         return resolver
 
     @classmethod
-    def __make_entry(cls, ttl, rdata):
-        return [{
+    def __make_entry(cls, name, ttl, rdata):
+        return {
+            'name': str(name),
             'type': dns.rdatatype.to_text(rdata.rdtype),
             'ttl': str(ttl),
             'answer': str(rdata)
-        }]
+        }
 
 
 
