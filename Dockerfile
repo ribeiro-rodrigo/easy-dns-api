@@ -9,6 +9,8 @@ ARG tsig_key
 ARG auth_username
 ARG auth_password
 ARG auth_token_expires_in_minutes
+ARG server_port
+ARG environment 
 
 COPY . /src/easy-dns-api
 WORKDIR /src/easy-dns-api
@@ -25,5 +27,7 @@ ENV TSIG_KEY=${tsig_key}
 ENV AUTH_USERNAME=${auth_username}
 ENV AUTH_PASSWORD=${auth_password}
 ENV AUTH_TOKEN_EXPIRES_IN_MINUTES=${auth_token_expires_in_minutes}
+ENV SERVER_PORT=${server_port}
+ENV ENVIRONMENT=${environment}
 
 CMD ["python", "app.py"]

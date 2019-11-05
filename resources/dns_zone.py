@@ -11,7 +11,7 @@ class DNSZone(Resource):
     def __init__(self, dns_facade: DNSZonesFacade):
         self.__dns_facade = dns_facade
 
-    @jwt_required
+    # @jwt_required
     def get(self):
 
         try:
