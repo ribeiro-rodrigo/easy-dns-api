@@ -13,6 +13,8 @@ class DNSZonesFacade:
 
         for zone_name in self.__avaliable_zones:
             records = self.__dns_service.transfer_zone(zone_name)
+            records_filtered = filter(lambda record: record['name'] != '@', records)
+            records = list(records_filtered)
             all_zones.append({"zone": zone_name, "records": records})
 
         return all_zones
