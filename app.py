@@ -41,5 +41,5 @@ if __name__ == '__main__':
 
     port = int(os.environ.get('SERVER_PORT')) if os.environ.get('SERVER_PORT', None) else 5000 
     debug_mode = False if os.environ.get('ENVIRONMENT',None) else True  
-    app.run("0.0.0.0",debug=debug_mode, port=port)
+    app.run("0.0.0.0", debug=debug_mode, port=port)
 
