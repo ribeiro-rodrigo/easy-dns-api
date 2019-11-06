@@ -16,6 +16,9 @@ class UserLogin(Resource):
 
         user_dto = request.json
 
+        if not user_dto:
+            return {"message": "enter username and password"}, 400
+
         authenticated = self.__user_login_facade.authenticate_user(
             user_dto['username'], user_dto['password']
         )
