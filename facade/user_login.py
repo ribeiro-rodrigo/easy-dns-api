@@ -5,8 +5,8 @@ import hashlib
 class UserLoginFacade:
 
     def __init__(self, cfg: ConfigHelper):
-        self.__username = cfg.config['auth']['username']
-        self.__password_hash = cfg.config['auth']['password']
+        self.__username = cfg.auth_username
+        self.__password_hash = cfg.auth_password
 
     def authenticate_user(self, username, password):
 

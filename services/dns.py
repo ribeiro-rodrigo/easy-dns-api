@@ -14,8 +14,8 @@ from models.record import Record
 class DNSService:
 
     def __init__(self, cfg: ConfigHelper):
-        self.__server_host = cfg.config['dns']['server_host']
-        self.__key = cfg.config['tsig']['key']
+        self.__server_host = cfg.server_host
+        self.__key = cfg.tsig_key
         self.__connection_timeout = cfg.connection_timeout
 
     def transfer_zone(self, zone_name):
