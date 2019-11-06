@@ -19,12 +19,6 @@ class DNSRecordsFacade:
     def update_record(self, record: Record):
 
         DNSRecordsFacade.__check_zone(record)
-
-        answer = self.__dns_service.resolve_domain(record.full_name)
-
-        if not answer:
-            raise RecordNotExists("'record' not exists in zone")
-
         deleted = self.__dns_service.delete_record(record)
         return self.__dns_service.update_record(record) if deleted else False
 

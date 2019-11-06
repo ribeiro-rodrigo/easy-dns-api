@@ -36,13 +36,6 @@ class DNSService:
         except FormError as e:
             raise Exception(str(e))
 
-    def resolve_domain(self, domain, type_record='A'):
-
-        try:
-            resolver = self.__make_resolver()
-            return resolver.query(domain, type_record)
-        except dns.resolver.NXDOMAIN as e:
-            return None
 
     def add_record(self, record: Record):
 
