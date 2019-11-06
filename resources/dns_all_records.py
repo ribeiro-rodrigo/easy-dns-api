@@ -33,7 +33,7 @@ class DNSAllRecords(Resource):
                 return {"message": "could not insert entry in DNS record", "errors": []}, 422
 
             return "", 201, {
-                'Location': f'{request.path}/{record.zone}/{record.name}'
+                'Location': f'{request.path}/{record.name}'
             }
 
         except InvalidZone as e:
