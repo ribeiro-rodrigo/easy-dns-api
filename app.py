@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_injector import FlaskInjector
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 from resources.dns_record import DNSRecord
 from resources.dns_zone import DNSZone
@@ -28,6 +29,7 @@ api.add_resource(UserLogin, '/auth')
 api.add_resource(RefreshLogin, '/refresh')
 
 JWTManager(app)
+CORS(app, expose_headers='Authorization')
 
 FlaskInjector(app=app, modules=[
     ServiceModule,
